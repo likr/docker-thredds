@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Implementation-Title: THREDDS Data Server (TDS)
+Implementation-Version: 4.6.3
+Implementation-Vendor-Id: edu.ucar
+Implementation-Vendor: UCAR/Unidata
+Implementation-URL: http://www.unidata.ucar.edu/software/thredds/curre
+ nt/tds/TDS.html
+Created-By: Gradle 2.4
+Build-Jdk: 1.8.0_45
+Built-By: cwardgar
+Built-On: 2015-08-31T15:28:06-0600
+
