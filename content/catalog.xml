@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <catalog name="THREDDS Server Default Catalog : You must change this to fit your server!"
-         xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
-         xmlns:xlink="http://www.w3.org/1999/xlink"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0
-           http://www.unidata.ucar.edu/schemas/thredds/InvCatalog.1.0.6.xsd">
+  xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0
+  http://www.unidata.ucar.edu/schemas/thredds/InvCatalog.1.0.6.xsd">
 
   <service name="all" base="" serviceType="compound">
     <service name="odap" serviceType="OpenDAP" base="/thredds/dodsC/" />
@@ -16,39 +16,42 @@
     <service name="viewer" serviceType="OpenDAP" base="http://likr.github.io/opendap-viewer?endpoint=http://192.168.99.101/thredds/dodsC/" />
   </service>
 
-  <service name="dap" base="" serviceType="compound">
-    <service name="odap" serviceType="OpenDAP" base="/thredds/dodsC/" />
-    <service name="dap4" serviceType="DAP4" base="/thredds/dap4/" />
-  </service>
-
   <datasetRoot path="test" location="content/testdata/" />
 
-  <dataset name="Test Single Dataset" ID="testDataset"
-           serviceName="dap"  urlPath="test/testData.nc" dataType="Grid"/>
-
-  <dataset name="Test Single Dataset 2" ID="testDataset2"
-           serviceName="odap" urlPath="test/testData2.grib2" dataType="Grid"/>
-
-  <datasetScan name="Test all files in a directory" ID="testDatasetScan"
-               path="testAll" location="content/testdata">
+  <datasetScan name="JRA55-ALL" path="JRA55-ALL" location="content/jra55">
     <metadata inherited="true">
       <serviceName>all</serviceName>
       <dataType>Grid</dataType>
     </metadata>
-
-    <filter>
-      <include wildcard="*eta_211.nc"/>
-      <include wildcard="testgrid*.nc"/>
-    </filter>
   </datasetScan>
 
-  <dataset name="CSV Test" ID="csvTest" urlPath="test/temperature.csv">
+  <featureCollection name="JRA55" featureType="GRIB1" path="JRA55">
     <metadata inherited="true">
       <serviceName>all</serviceName>
-      <dataType>Point</dataType>
-      <dataFormat>csv</dataFormat>
+      <dataType>Grid</dataType>
     </metadata>
-  </dataset>
+    <collection
+      spec="/usr/local/tomcat/content/thredds/public/jra55/Hist/Monthly/**/.*\.\d{6}$"
+      dateFormatMark="yyyyMM"
+      name="jra55-monthly"/>
+    <update startup="always" trigger="allow"/>
+  </featureCollection>
 
-  <catalogRef xlink:title="Test Enhanced Catalog" xlink:href="enhancedCatalog.xml" name=""/>
+  <featureCollection name="JRA55-DAILY" featureType="GRIB1" path="JRA55-DAILY">
+    <metadata inherited="true">
+      <serviceName>all</serviceName>
+      <dataType>Grid</dataType>
+    </metadata>
+    <collection
+      spec="/usr/local/tomcat/content/thredds/public/jra55/Hist/Daily/**/.*\.\d{10}$"
+      dateFormatMark="yyyyMMddHH"
+      timePartition="directory"
+      name="jra55-daily"/>
+    <update startup="always" trigger="allow"/>
+    <gribConfig>
+      <gdsName hash="-935943103" groupName="hogehoge"/>
+      <gdsName hash="-936035263" groupName="Pressure_surface_0"/>
+      <gdsName hash="1178691010" groupName="ice_cover_surface_0"/>
+    </gribConfig>
+  </featureCollection>
 </catalog>
